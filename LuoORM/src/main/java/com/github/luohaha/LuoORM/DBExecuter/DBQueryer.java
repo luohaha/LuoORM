@@ -17,7 +17,7 @@ public class DBQueryer {
 		this.s = pool;
 	}
 	
-	public static DBQueryer create(DBPool pool) {
+	public static DBQueryer use(DBPool pool) {
 		return new DBQueryer(pool);
 	}
 	

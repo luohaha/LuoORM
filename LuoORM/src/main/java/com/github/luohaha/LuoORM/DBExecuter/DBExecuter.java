@@ -18,7 +18,7 @@ public class DBExecuter {
 		this.s.closePool();
 	}
 	
-	public static DBExecuter create(DBPool pool) {
+	public static DBExecuter use(DBPool pool) {
 		return new DBExecuter(pool);
 	}
 

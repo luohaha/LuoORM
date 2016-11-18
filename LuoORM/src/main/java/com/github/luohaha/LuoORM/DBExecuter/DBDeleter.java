@@ -19,7 +19,7 @@ public class DBDeleter {
 		this.s = pool;
 	}
 	
-	public static DBDeleter create(DBPool pool) {
+	public static DBDeleter use(DBPool pool) {
 		return new DBDeleter(pool);
 	}
 	

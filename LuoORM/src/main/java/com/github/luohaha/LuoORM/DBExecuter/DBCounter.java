@@ -22,7 +22,7 @@ public class DBCounter {
 		this.s = pool;
 	}
 
-	public static DBCounter create(DBPool pool) {
+	public static DBCounter use(DBPool pool) {
 		return new DBCounter(pool);
 	}
 

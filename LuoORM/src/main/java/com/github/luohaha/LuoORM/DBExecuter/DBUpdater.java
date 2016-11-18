@@ -18,7 +18,7 @@ public class DBUpdater {
 		this.s = pool;
 	}
 
-	public static DBUpdater create(DBPool pool) {
+	public static DBUpdater use(DBPool pool) {
 		return new DBUpdater(pool);
 	}
 

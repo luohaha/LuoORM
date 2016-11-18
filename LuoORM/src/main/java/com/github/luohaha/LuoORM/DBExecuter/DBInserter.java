@@ -18,7 +18,7 @@ public class DBInserter {
 		this.s = pool;
 	}
 	
-	public static DBInserter create(DBPool pool) {
+	public static DBInserter use(DBPool pool) {
 		return new DBInserter(pool);
 	}
 	
