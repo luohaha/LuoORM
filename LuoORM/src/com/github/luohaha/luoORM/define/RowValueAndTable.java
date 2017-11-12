@@ -1,4 +1,4 @@
-package com.github.luohaha.LuoORM;
+package com.github.luohaha.luoORM.define;
 
 public class RowValueAndTable {
 	private RowValue rowValue;

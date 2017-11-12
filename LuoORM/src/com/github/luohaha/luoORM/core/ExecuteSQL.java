@@ -1,17 +1,17 @@
-package com.github.luohaha.LuoORM;
+package com.github.luohaha.luoORM.core;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Savepoint;
 import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 import javax.sql.RowSet;
 import javax.sql.rowset.CachedRowSet;
 
-import com.github.luohaha.LuoORM.DBPool.DBPool;
+import com.github.luohaha.luoORM.dbPool.DBPool;
 import com.sun.rowset.CachedRowSetImpl;
 /**
  * 数据库执行操作
@@ -37,22 +37,20 @@ public class ExecuteSQL {
 			stmt.executeUpdate(sql);
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			Logger.getLogger("logger").severe(e.toString());
 		} finally {
 			if (stmt != null) {
 				try {
 					stmt.close();
 				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					Logger.getLogger("logger").severe(e.toString());
 				}
 			}
 			if (conn != null) {
 				try {
 					s.closeConnection(conn);
 				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					Logger.getLogger("logger").severe(e.toString());
 				}
 			}
 		}
@@ -60,7 +58,6 @@ public class ExecuteSQL {
 	}
 
 	public static void executeSQLBatch(DBPool s, List<String> sqls) {
-		// TODO Auto-generated method stub
 		Statement stmt = null;
 		Savepoint savepoint = null;
 		Connection conn = null;
@@ -82,28 +79,27 @@ public class ExecuteSQL {
 			conn.commit();
 			conn.releaseSavepoint(savepoint);
 		} catch (SQLException e) {
+			Logger.getLogger("logger").warning(e.toString());
 			try {
 				conn.rollback(savepoint);
 			} catch (SQLException e1) {
-				e1.printStackTrace();
+				Logger.getLogger("logger").severe(e1.toString());
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			Logger.getLogger("logger").severe(e.toString());
 		} finally {
 			if (stmt != null) {
 				try {
 					stmt.close();
 				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					Logger.getLogger("logger").severe(e.toString());
 				}
 			}
 			if (conn != null) {
 				try {
 					s.closeConnection(conn);
 				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					Logger.getLogger("logger").severe(e.toString());
 				}
 			}
 		}
@@ -139,16 +135,14 @@ public class ExecuteSQL {
 				try {
 					stmt.close();
 				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					Logger.getLogger("logger").severe(e.toString());
 				}
 			}
 			if (conn != null) {
 				try {
 					s.closeConnection(conn);
 				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					Logger.getLogger("logger").severe(e.toString());
 				}
 			}
 		}
@@ -184,16 +178,14 @@ public class ExecuteSQL {
 				try {
 					stmt.close();
 				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					Logger.getLogger("logger").severe(e.toString());
 				}
 			}
 			if (conn != null) {
 				try {
 					s.closeConnection(conn);
 				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					Logger.getLogger("logger").severe(e.toString());
 				}
 			}
 		}

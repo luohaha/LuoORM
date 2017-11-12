@@ -1,4 +1,4 @@
-package com.github.luohaha.LuoORM.DBPool;
+package com.github.luohaha.luoORM.dbPool;
 import java.sql.Connection;
 import java.sql.SQLException;
 

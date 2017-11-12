@@ -1,15 +1,18 @@
-package com.github.luohaha.LuoORM.DBExecuter;
+package com.github.luohaha.luoORM.dbExecuter;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import com.github.luohaha.LuoORM.ExecuteSQL;
-import com.github.luohaha.LuoORM.RowValue;
-import com.github.luohaha.LuoORM.RowValueAndTable;
-import com.github.luohaha.LuoORM.TextValue;
-import com.github.luohaha.LuoORM.DBPool.DBPool;
-import com.github.luohaha.LuoORM.Table.Processor;
+
+import com.github.luohaha.luoORM.exception.BuildSqlException;
+import com.github.luohaha.luoORM.exception.ClassNotExistAnnotation;
+import com.github.luohaha.luoORM.core.ExecuteSQL;
+import com.github.luohaha.luoORM.define.RowValue;
+import com.github.luohaha.luoORM.define.RowValueAndTable;
+import com.github.luohaha.luoORM.define.TextValue;
+import com.github.luohaha.luoORM.dbPool.DBPool;
+import com.github.luohaha.luoORM.table.Processor;
 
 public class DBInserter {
 	private DBPool s;
@@ -33,7 +36,7 @@ public class DBInserter {
 	 * @return
 	 * 接着使用
 	 */
-	public DBInserter insert(Object object) {
+	public DBInserter insert(Object object) throws BuildSqlException, ClassNotExistAnnotation {
 		RowValueAndTable rowValueAndTable = Processor.TableToRV(object);
 		if (rowValueAndTable != null) {
 			ExecuteSQL.executeSingelSQL(s, buildInserterSQL(rowValueAndTable.getRowValue(), rowValueAndTable.getTableName()));
@@ -48,7 +51,7 @@ public class DBInserter {
 	 * @return
 	 * 接着使用
 	 */
-	public DBInserter insert(Collection<Object> objects) {
+	public DBInserter insert(Collection<Object> objects) throws BuildSqlException, ClassNotExistAnnotation {
 		for (Object object : objects) {
 			RowValueAndTable rowValueAndTable = Processor.TableToRV(object);
 			if (rowValueAndTable != null) {
@@ -65,7 +68,7 @@ public class DBInserter {
 	 * @return
 	 * 接着使用
 	 */
-	public DBInserter insertBatch(List<Object> objects) {
+	public DBInserter insertBatch(List<Object> objects) throws BuildSqlException, ClassNotExistAnnotation {
 		List<String> sqls = new ArrayList<>();
 		for (Object object : objects) {
 			RowValueAndTable rowValueAndTable = Processor.TableToRV(object);
@@ -76,7 +79,9 @@ public class DBInserter {
 		return this;
 	}
 	
-	private String buildInserterSQL(RowValue rv, String table) {
+	private String buildInserterSQL(RowValue rv, String table) throws BuildSqlException {
+		if (rv == null || rv.getRow().isEmpty())
+			throw new BuildSqlException();
 		List<TextValue> values = rv.getRow();
 		String sql = "insert IGNORE into " + table;
 		String sqlset = " (";

@@ -1,16 +1,16 @@
-package com.github.luohaha.LuoORM.DBExecuter;
+package com.github.luohaha.luoORM.dbExecuter;
 
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Map;
 
-import com.github.luohaha.LuoORM.ExecuteSQL;
-import com.github.luohaha.LuoORM.RowValue;
-import com.github.luohaha.LuoORM.RowValue.DBType;
-import com.github.luohaha.LuoORM.RowValueAndTable;
-import com.github.luohaha.LuoORM.TextValue;
-import com.github.luohaha.LuoORM.DBPool.DBPool;
-import com.github.luohaha.LuoORM.Table.Processor;
+import com.github.luohaha.luoORM.exception.ClassNotExistAnnotation;
+import com.github.luohaha.luoORM.core.ExecuteSQL;
+import com.github.luohaha.luoORM.define.RowValue;
+import com.github.luohaha.luoORM.define.RowValue.DBType;
+import com.github.luohaha.luoORM.define.RowValueAndTable;
+import com.github.luohaha.luoORM.define.TextValue;
+import com.github.luohaha.luoORM.dbPool.DBPool;
+import com.github.luohaha.luoORM.table.Processor;
 
 /*
  * 获取表中的数目
@@ -37,13 +37,13 @@ public class DBCounter {
 	 * @return
 	 * 返回个数
 	 */
-	public int getCountOf(Object cond) {
+	public int getCountOf(Object cond) throws ClassNotExistAnnotation {
 		RowValueAndTable rowValueAndTable = Processor.TableToRV(cond);
 		return ExecuteSQL.executeSQLSingleAndReturnCount(s, buildCounterSQL(rowValueAndTable.getTableName(),
 				rowValueAndTable.getRowValue(), DBType.And));
 	}
 	
-	public int getCountOf(Object cond, DBType type) {
+	public int getCountOf(Object cond, DBType type) throws ClassNotExistAnnotation {
 		RowValueAndTable rowValueAndTable = Processor.TableToRV(cond);
 		return ExecuteSQL.executeSQLSingleAndReturnCount(s, buildCounterSQL(rowValueAndTable.getTableName(),
 				rowValueAndTable.getRowValue(), type));
@@ -54,7 +54,7 @@ public class DBCounter {
 	 * 
 	 * @param table
 	 * 表名称
-	 * @param tv
+	 * @param rv
 	 * rv
 	 * @param type
 	 * 类型
@@ -76,8 +76,6 @@ public class DBCounter {
 					}
 				}
 			}
-		} else {
-			
 		}
 		return sql;
 	}

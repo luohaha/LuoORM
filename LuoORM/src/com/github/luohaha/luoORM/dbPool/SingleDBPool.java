@@ -1,4 +1,4 @@
-package com.github.luohaha.LuoORM.DBPool;
+package com.github.luohaha.luoORM.dbPool;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -6,7 +6,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Map;
 
-import com.github.luohaha.LuoORM.ConfReader;
+import com.github.luohaha.luoORM.tools.ConfReader;
 
 
 
@@ -53,13 +53,11 @@ public class SingleDBPool implements DBPool {
 
 	@Override
 	public void initSource() {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void closePool() throws SQLException {
-		// TODO Auto-generated method stub
 		
 	}
 

@@ -1,14 +1,16 @@
-package com.github.luohaha.LuoORM.DBExecuter;
+package com.github.luohaha.luoORM.dbExecuter;
 
 import java.sql.SQLException;
 import java.util.List;
-import com.github.luohaha.LuoORM.ExecuteSQL;
-import com.github.luohaha.LuoORM.RowValue;
-import com.github.luohaha.LuoORM.RowValue.DBType;
-import com.github.luohaha.LuoORM.RowValueAndTable;
-import com.github.luohaha.LuoORM.TextValue;
-import com.github.luohaha.LuoORM.DBPool.DBPool;
-import com.github.luohaha.LuoORM.Table.Processor;
+
+import com.github.luohaha.luoORM.exception.ClassNotExistAnnotation;
+import com.github.luohaha.luoORM.core.ExecuteSQL;
+import com.github.luohaha.luoORM.define.RowValue;
+import com.github.luohaha.luoORM.define.RowValue.DBType;
+import com.github.luohaha.luoORM.define.RowValueAndTable;
+import com.github.luohaha.luoORM.define.TextValue;
+import com.github.luohaha.luoORM.dbPool.DBPool;
+import com.github.luohaha.luoORM.table.Processor;
 
 public class DBQueryer {
 	private DBPool s;
@@ -25,13 +27,13 @@ public class DBQueryer {
 		this.s.closePool();
 	}
 	
-	public Object query(Object cond) {
+	public Object query(Object cond) throws ClassNotExistAnnotation {
 		RowValueAndTable rowValueAndTable = Processor.TableToRV(cond);
 		return Processor.RowSetToObject(ExecuteSQL.executeSQLAndReturn(s, 
 				buildQueryerSQL(rowValueAndTable.getTableName(), rowValueAndTable.getRowValue(), DBType.And)), cond.getClass());
 	}
 	
-	public Object query(Object cond, DBType type) {
+	public Object query(Object cond, DBType type) throws ClassNotExistAnnotation {
 		RowValueAndTable rowValueAndTable = Processor.TableToRV(cond);
 		return Processor.RowSetToObject(ExecuteSQL.executeSQLAndReturn(s, 
 				buildQueryerSQL(rowValueAndTable.getTableName(), rowValueAndTable.getRowValue(), type)), cond.getClass());

@@ -1,15 +1,18 @@
-package com.github.luohaha.LuoORM.DBExecuter;
+package com.github.luohaha.luoORM.dbExecuter;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import com.github.luohaha.LuoORM.ExecuteSQL;
-import com.github.luohaha.LuoORM.RowValue;
-import com.github.luohaha.LuoORM.RowValue.DBType;
-import com.github.luohaha.LuoORM.RowValueAndTable;
-import com.github.luohaha.LuoORM.TextValue;
-import com.github.luohaha.LuoORM.DBPool.DBPool;
-import com.github.luohaha.LuoORM.Table.Processor;
+
+import com.github.luohaha.luoORM.exception.BuildSqlException;
+import com.github.luohaha.luoORM.exception.ClassNotExistAnnotation;
+import com.github.luohaha.luoORM.core.ExecuteSQL;
+import com.github.luohaha.luoORM.define.RowValue;
+import com.github.luohaha.luoORM.define.RowValue.DBType;
+import com.github.luohaha.luoORM.define.RowValueAndTable;
+import com.github.luohaha.luoORM.define.TextValue;
+import com.github.luohaha.luoORM.dbPool.DBPool;
+import com.github.luohaha.luoORM.table.Processor;
 
 public class DBUpdater {
 	private DBPool s;
@@ -36,14 +39,14 @@ public class DBUpdater {
 	 * @return
 	 * 接着使用
 	 */
-	public DBUpdater update(Object update, Object cond) {
+	public DBUpdater update(Object update, Object cond) throws ClassNotExistAnnotation, BuildSqlException {
 		RowValueAndTable u = Processor.TableToRV(update);
 		RowValueAndTable c = Processor.TableToRV(cond);
 		ExecuteSQL.executeSingelSQL(s, buildUpdaterSQL(u.getTableName(), u.getRowValue(), c.getRowValue(), DBType.And));
 		return this;
 	}
 
-	public DBUpdater update(Object update, Object cond, DBType type) {
+	public DBUpdater update(Object update, Object cond, DBType type) throws ClassNotExistAnnotation, BuildSqlException {
 		RowValueAndTable u = Processor.TableToRV(update);
 		RowValueAndTable c = Processor.TableToRV(cond);
 		ExecuteSQL.executeSingelSQL(s, buildUpdaterSQL(u.getTableName(), u.getRowValue(), c.getRowValue(), type));
@@ -59,7 +62,7 @@ public class DBUpdater {
 	 * @return
 	 * 接着使用
 	 */
-	public DBUpdater updateBatch(List<Object> update, List<Object> cond) {
+	public DBUpdater updateBatch(List<Object> update, List<Object> cond) throws ClassNotExistAnnotation, BuildSqlException {
 		// 构造sql
 		List<String> sqls = new ArrayList<>();
 		for (int i = 0; i < update.size(); i++) {
@@ -89,7 +92,7 @@ public class DBUpdater {
 	 * @return
 	 * 接着使用
 	 */
-	public DBUpdater updateBatch(List<Object> update, List<Object> cond, DBType type) {
+	public DBUpdater updateBatch(List<Object> update, List<Object> cond, DBType type) throws ClassNotExistAnnotation, BuildSqlException {
 		// 构造sql
 		List<String> sqls = new ArrayList<>();
 		for (int i = 0; i < update.size(); i++) {
@@ -108,7 +111,9 @@ public class DBUpdater {
 		return this;
 	}
 
-	private String buildUpdaterSQL(String table, RowValue rv, RowValue rvCond, DBType type) {
+	private String buildUpdaterSQL(String table, RowValue rv, RowValue rvCond, DBType type) throws BuildSqlException {
+		if (rv == null || rv.getRow().isEmpty())
+			throw new BuildSqlException();
 		List<TextValue> update = rv.getRow();
 		String sql = "update " + table + " set ";
 		for (int i = 0; i < update.size(); i++) {

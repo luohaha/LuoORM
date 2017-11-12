@@ -1,9 +1,7 @@
-package com.github.luohaha.LuoORM;
+package com.github.luohaha.luoORM.define;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class RowValue {
 	public enum DBType{And, Or};
